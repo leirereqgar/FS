@@ -1494,3 +1494,106 @@ if [ $# -eq 3 ]; then
 fi	
 ```
 
+# Práctica 6: Depuración y control de trabajos
+
+## Ejercicio 6.1.
+
+Indique cuál ha sido el error introducido en el guion anterior y cómo se corregiría.
+
+> El error está en la sintaxis de `test` que necesita un espacio después del primer corchete
+
+## Ejercicio 6.2. 
+
+Aplicar las herramientas de depuración vistas en la sección 2 para la detección de errores durante el desarrollo de los guiones propuestos como ejercicios en la práctica 5.
+
+> Se depuraron los ejercicios antes de entregarlos
+
+## Ejercicio 6.3
+
+Escribir un guion que nos dé el nombre del proceso del sistema que consume más memoria.
+
+```sh
+#!/bin/bash
+# Titulo:       consumo
+# Fecha:      	24/11/2020
+# Autor:        Leire Requena Garcia
+# Version:      1.0
+# Descripción:  
+#               
+# Opciones: ninguna
+# Uso: ./consumo.sh
+
+ps -u $USER -o cmd --sort=-%mem --no-headers | head -n 1
+```
+
+> -u $USER muestra los procesos del usuario
+>
+> -o cmd muestra solo el nombre del comando
+>
+> --sort=-%mem ordena por la memoria ocupada de mayor a menor
+>
+> no-headers elimina la cabecera de ps
+>
+> Pipeamos a head porque solo nos interesa la primera línea
+
+## Ejercicio 6.4
+
+Escribir un guion que escriba números desde el 1 en adelante en intervalos de un segundo ¿Cómo
+se podría, desde otro terminal, detener la ejecución de dicho proceso, reanudarlo y terminar definitivamente su ejecución?
+
+```sh
+#!/bin/bash
+# Titulo:       contador
+# Fecha:      	24/11/2020
+# Autor:        Leire Requena Garcia
+# Version:      1.0
+# Descripción:  
+#               
+# Opciones: ninguna
+# Uso: ./contador.sh
+
+i=1
+
+while true; do
+	sleep 1
+	echo $((++a))
+done
+```
+
+>Para ejecutarlo en segundo plano: `./contador $` lo que nos dará el pid del programa
+>
+>Para detener la ejecución desde otra terminal hay que usar la señal `SIGTSTP` (también se podría con `SIGSTOP`)
+>
+>```shell
+>kill -TSTP pid
+>```
+>
+>Para reanudar la señal `CONT`
+>
+>```shell
+>kill -CONT pid
+>```
+>
+>Terminar la ejecución definitivamente con:
+>
+>```shell
+>kill -TERM pid
+>```
+
+## Ejercicio 6.5
+
+¿Se puede matar un proceso que se encuentra suspendido? En su caso, ¿cómo?
+
+> Sí, con la opción -9 de kill
+>
+> ```shell
+> kill -9 pid
+> ```
+
+## Ejercicio 6.6
+
+¿Qué debemos hacer a la orden top para que nos muestre sólo los procesos nuestros?
+
+```shell
+top -u
+```
