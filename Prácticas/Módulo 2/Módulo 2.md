@@ -334,7 +334,33 @@ $(EXECUTABLE): $(OBJECT_MODULES)
 
 > Con este makefile todos los cpp son necesarios para crear los objetos y todos los objetos son necesarios para el ejecutable, por tanto se ejecutará un `g++ -c` para cada objeto y un `g++ -o` para el ejecutable
 
+## Ejercicio 7.10
 
+Con la siguiente especificación de módulos escriba un archivo denominado `makefilePolaca` que automatice el proceso de compilación del programa final de acuerdo a la siguiente descripción:
+Compilador: `gcc` o `g++`
+Archivos cabecera: `calc.h`  (ubicado en un subdirectorio denominado cabeceras)
+Archivos fuente: `main.c stack.c getop.c getch.c`
+Nombre del programa ejecutable: `calculadoraPolaca`
+Además, debe incluir una regla denominada `borrar`, sin dependencias, cuya funcionalidad sea la de eliminar los archivos objeto y el programa ejecutable.
+
+```makefile
+CC=gcc
+CPPFLAGS=-c -Wall -I./includes
+SOURCE_MODULES=main.c stack.c getop.c getch.c 
+OBJECT_MODULES=$(SOURCE_MODULES:.cpp=.o)
+EXECUTABLE=calculadoraPolaca
+
+all: borrar $(OBJECT_MODULES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJETC_MODULES)
+	$(CC) $^ -o $€
+
+.o: .cpp
+	$(CC) $(CPPFLAGS) $< -o $@
+
+borrar:
+	rm calculadoraPolaca *.o
+```
 
 
 

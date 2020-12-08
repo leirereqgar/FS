@@ -1,0 +1,16 @@
+CC=gcc
+CPPFLAGS=-c -Wall -I./includes
+SOURCE_MODULES=main.c stack.c getop.c getch.c 
+OBJECT_MODULES=$(SOURCE_MODULES:.cpp=.o)
+EXECUTABLE=calculadoraPolaca
+
+all: borrar $(OBJECT_MODULES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJETC_MODULES)
+	$(CC) $^ -o $€
+
+.o: .cpp
+	$(CC) $(CPPFLAGS) $< -o $@
+
+borrar:
+	rm calculadoraPolaca *.o
