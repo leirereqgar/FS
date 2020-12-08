@@ -862,15 +862,15 @@ $3 = 2
 Busque cualquier programa escrito en C++ que cumpla los requisitos para poderlo depurar utilizando la orden `attach`. Compílelo usando el flag de depuración, ejecútelo en una Shell en segundo plano y, en otra Shell, ejecute el depurador con el programa que se está ejecutando en estos momentos en la shell anterior. Utilice las órdenes de gdb para hacer que el programa que se está ejecutando se detenga en algún lugar y posteriormente se pueda continuar su ejecución. Escriba todos los pasos que haya realizado.
 
 ```shell
-g++ -g ejsesion10.cpp -o ej1
-./ej1 &
+g++ -g ejsesion09b.cpp -o ejsesion09b
+./ejsesion09b &
 gdb
-(gdb) attach 3619
+(gdb) attach PID
 kill
 ```
-
-
 
 ## Ejercicio 8.13.
 
 Utilizando las órdenes de depuración de gdb, corrija el error del programa ecuacionSegundoGrado.cpp. Escriba todos los pasos que haya realizado. Pruebe a depurarlo usando `attach`.
+
+> No sé donde está el código que dice en este ejercicio
