@@ -24,7 +24,7 @@ int sumatoria (float vector[], int n)
 
    tmp = 0;
    for (i = 0; i < n; i ++)
-      suma(tmp, vector[i]);
+      tmp = suma(tmp, vector[i]); // Corregida esta parte
 
    printf ("Suma = %d\n", tmp);
 
