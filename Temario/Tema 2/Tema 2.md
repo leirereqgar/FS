@@ -195,5 +195,120 @@ Objetos de la gestión de memoria:
 - Permitir que los procesos compartan memoria.
 - Maximizar el rendimiento del sistema.
 
+### 2.4.1 Requisitos de la Gestión de Memoria
+
+**Reubicación:** como la memoria es limitada, existe la necesidad de cargar en ella solo parte de los procesos y no de forma permanente (se llama swap o intercambio). Las direcciones de memoria que ocupa un proceso varían de acuerdo ala disponibilidad de espacios libres.
+
+**Protección:** no se puede permitir que los procesos accedan a las direcciones del SO ni a las de otros procesos.
+
+**Compartición:** bajo la supervisión y control del sistema operativo, puede ser provechoso que los procesos compartan memoria.
+
+**Organización lógica:** correspondencia entre el SO y el hardware al tratar la concepción lógica que tienen los procesos y sus datos, con la organización física de la memoria.
+
+Las direcciones de memoria pueden ser físicas (directas a memoria) o absolutas, relativas al origen del programa o lógicas, referencias a una localización no asignada.
+
+Con la carga absoluta se asignan direcciones físicas al programa en tiempo de compilación y no se puede reubicar el programa.
+
+Con la reubicación se puede cargar y ejecutar un programa en un lugar arbitrario de la memoria.
+
+#### Reubicación estática
+
+El compilador generará las direcciones lógicas (relativas) de 0 a M.
+
+La decisión de dónde ubicar el programa en la memoria principal se realiza en tiempo de carga.
+
+El cargador añade la dirección base de carga a todas las referencias relativas a memoria del programa.
+
+#### Reubicación dinámica
+
+El compilador genera las direcciones lógicas (relativas) de 0 a M.
+
+La traducción de direcciones lógicas a físicas se realiza en tiempo de ejecución luego el programa está cargado con referencias relativas. Necesita el apoyo del hardware.
+
+### 2.4.2 Definiciones asociadas al manejo de memoria
+
+- **Espacio de direcciones lógico:** conjunto de direcciones lógicas que usa un programa ejecutable.
+- **Espacio de direcciones físico:** conjunto de direcciones físicas (memoria principal) que corresponden a las direcciones lógicas del programa en un instante dado.
+- **Mapa de memoria de un ordenador:** todo el espacio de memoria direccionable por el ordenador. Normalmente depende del tamaño del bus de direcciones.
+- **Mapa de memoria de un proceso:** estructura de datos (que reside en memoria) que indica el tamaño total del espacio de direcciones lógico y la correspondencia entre las direcciones lógicas y las físicas.
+
+### 2.4.3 Técnicas de asignación contigua a memoria
+
+Por la multiprogramación varios procesos residen simultáneamente en memoria principal. En cada cambio de contexto, su intercambio con HD es costoso.
+
+- **Particiones fijas:** la memoria se divide en número de partes de tamaño constante. Cada nuevo proceso es ubicado en una partición. La liberación del proceso libera la partición. El espacio no ocupado es inutilizable. El mayor problema es que genera fragmentación interna.
+- **Particiones variables:** el tamaño de la partición en memoria principal es justo el que el proceso solicita. Se genera fragmentación externa por el coste de la compactación, es necesario un mecanismo de relocalización.
+
+### 2.4.4 Técnicas de asignación no contigua de memoria
+
+Se divide el espacio lógico en unidades más pequeñas: **páginas** (elementos de longitud fija) o **segmentos** (elementos de longitud variable).
+
+Los trozos no tienen por qué ubicarse consecutivamente en el espacio físico de memoria.
+
+Los esquemas de organización del espacio lógico de direcciones y de traducción de una dirección del espacio físico de memoria.
+
+#### Paginación
+
+El espacio de direcciones físicas de un proceso puede ser no contiguo. La memoria física se divide en bloques de tamaño fijo llamados marcos de página; deben ser potencia de dos (512B - 8KB).
+
+El espacio lógico de un proceso se divide conceptualmente en bloques del mismo tamaño, páginas.
+
+Los marcos de página tendrán las páginas de los procesos.
+
+Las direcciones lógicas, generadas por la CPU, se convierten a los valores número de página (p) y desplazamiento dentro de la página (d). 
+
+Las direcciones físicas contienen el número de marco (m, dirección base del marco donde está almacenada la página) y desplazamiento (d).
+
+Cuando la CPU genera una dirección lógica es necesario traducirla a la dirección física que corresponde. La tabla de páginas tendrá la información necesaria para esa traducción; cada proceso tendrá su propia tabla.
+
+La tabla de marcos de página, usada por el SO y contiene información sobre cada marco de página.
+
+La tabla de páginas tendrá una entrada por cada página del proceso, tendrán su número de marco en el está almacenada la página si está en memoria principal, el modo de acceso autorizado a la página (bits de protección) y puede tener otros bits de presencia, modificación...
+
+##### Implementación
+
+La tabla y la lista de marcos libres se mantienen en memoria principal.
+
+El registro base de la tabla de páginas (RBTP) apunta a la tabla de páginas y suele almacenarse en el PCB del proceso.
+
+En este esquema cada acceso a una instrucción o dato requiere dos accesos a memoria, uno a la tabla de páginas y otro a memoria.
+
+##### TLB- Buffer de Traducción Adelantada
+
+Caché hardware de consulta rápida TLB.
+
+Conjunto de registros asociativos que permiten una búsqueda en paralelo.
+
+Para traducir una dirección:
+
+- Si existe en el registro asociativo se obtiene el marco
+- Si no existe, se busca en la tabla de páginas y se actualiza el TLB con esta nueva entrada.
+
+#### Segmentación
+
+Es un esquema de organización de memoria que soporta mejor la visión de memoria del usuario.
+
+Un programa es una colección de unidades lógicas, segmentos.
+
+Las direcciones lógicas son tuplas: <nº de segmento, desplazamiento>.
+
+La tabla de segmentos aplica direcciones bidimensionales definidas por el usuario en direcciones físicas de una dimensión.
+
+Cada entrada de la tabla tiene los siguientes elementos:
+
+- Registro base: memoria
+- Registro límite: tamaño o longitud del segmento
+- Información de protección, presencia, modificación...
+
+##### Implementación
+
+Se mantienen la tabla de segmentos y la lista de segmentos libres.
+
+El PCB del proceso almacena:
+
+- El registro base de la tabla de segmentos (RBTS): apunta a la dirección de inicio de la tabla de segmentos
+- El registro longitud de la tabla de segmentos (RLTS) indica el número de segmentos del proceso
+- Una dirección lógica <s,d> es legal si: s<R
+
 
 
