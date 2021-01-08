@@ -4,3 +4,4 @@ Ejercicios resueltos del guión de prácticas de la asignatura Fundamentos del S
 
 ## Calificaciones
 - *Examen 1 = 10.0*
+- *Examen 2 = 9.0 *
